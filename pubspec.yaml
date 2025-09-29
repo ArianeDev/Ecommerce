@@ -34,6 +34,8 @@ dependencies:
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.8
+  # Bibliotecas vem depois disso
+  google_fonts: ^6.3.2
 
 dev_dependencies:
   flutter_test:
@@ -59,8 +61,22 @@ flutter:
 
   # To add assets to your application, add an assets section, like this:
   assets:
-    - assets/livro01.jpg
-    - assets/livro02.jpg
+    - assets/img/livro01.jpg
+    - assets/img/livro02.jpg
+    - assets/img/livro03.jpg
+    - assets/img/livro04.jpg
+    - assets/img/livro05.jpg
+    - assets/img/livro06.jpg
+    - assets/img/livro07.jpg
+    - assets/img/livro08.jpg
+    - assets/img/livro09.jpg
+    - assets/img/livro10.jpg
+    - assets/img/livro11.jpg
+    - assets/img/livro12.jpg
+    - assets/img/livro13.jpg
+    - assets/img/livro14.jpg
+    - assets/img/livro15.jpg
+    - assets/img/livro16.jpg
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images
@@ -73,10 +89,10 @@ flutter:
   # "family" key with the font family name, and a "fonts" key with a
   # list giving the asset and other descriptors for the font. For
   # example:
-  # fonts:
-  #   - family: Schyler
-  #     fonts:
-  #       - asset: fonts/Schyler-Regular.ttf
+  fonts:
+    - family: font
+      fonts:
+        - asset: assets/fonts/SUSEMono-Italic-VariableFont_wght.ttf
   #       - asset: fonts/Schyler-Italic.ttf
   #         style: italic
   #   - family: Trajan Pro
