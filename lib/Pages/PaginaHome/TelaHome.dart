@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:arianeapp1/Components/CardLivro/CardLivro.dart';
 
-class TelaUser extends StatelessWidget {
-  const TelaUser({super.key});
+class TelaHome extends StatelessWidget {
+  const TelaHome({super.key});
 
   @override
   Widget build(BuildContext context) {
