@@ -1,6 +1,10 @@
+import 'dart:convert';
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:arianeapp1/Components/CardLivro/CardLivro.dart';
+import 'package:http/http.dart' as http;
 
 class TelaLivros extends StatefulWidget {
   const TelaLivros({super.key});
@@ -10,6 +14,7 @@ class TelaLivros extends StatefulWidget {
 }
 
 class _TelaLivrosState extends State<TelaLivros> {
+  String? API;
   TextEditingController _searchController = TextEditingController();
 
   List<Map<String, String>> todosLivros = [
@@ -116,7 +121,18 @@ class _TelaLivrosState extends State<TelaLivros> {
   @override
   void initState() { // iniciar variáveis, configurar controladores, carregar dados ou preparar estados iniciais
     super.initState();
+    getAPI();
     livrosFiltrados = List.from(todosLivros);
+  }
+
+  void getAPI() async {
+    final response = await http.get(Uri.parse(""));
+
+    if (response.statusCode == 200) {
+      final data = jsonDecode(response.body); // transforma json em string
+      
+      log(data);
+    }
   }
 
   void _filtrarLivros(String texto) {

@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:arianeapp1/Pages/Login/login.dart';
 import 'package:arianeapp1/Pages/PaginaLivros/PaginaLivros.dart';
 import 'package:arianeapp1/user.dart';
 import 'package:flutter/material.dart';
@@ -9,6 +10,7 @@ import 'Components/Contador/Contador.dart';
 import 'package:arianeapp1/Components/CardLivro/CardLivro.dart';
 import 'package:arianeapp1/Pages/PaginaHome/TelaHome.dart';
 import 'package:arianeapp1/Pages/PaginaLivro/PaginaLivro.dart';
+import 'package:arianeapp1/Pages/Login/login.dart';
 
 void main() {
   runApp(
@@ -70,7 +72,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: NavBar(),
+      home: LoginPage(),
     );
   }
 }

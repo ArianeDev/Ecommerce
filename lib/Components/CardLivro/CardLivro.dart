@@ -47,7 +47,7 @@ class CardLivro extends StatelessWidget {
           ]
         ),
         child: Padding(
-          padding:const EdgeInsets.all(7.0),
+          padding: EdgeInsets.all(7.0),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
