@@ -130,8 +130,10 @@ class _TelaLivrosState extends State<TelaLivros> {
 
     if (response.statusCode == 200) {
       final data = jsonDecode(response.body); // transforma json em string
-      
-      log(data);
+
+      setState(() {
+        API = data[1]["title"];
+      });
     }
   }
 
@@ -143,7 +145,6 @@ class _TelaLivrosState extends State<TelaLivros> {
       }).toList();
     });
   }
-
 
   @override
   Widget build(BuildContext context) {
