@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:arianeapp1/Pages/Login/login.dart';
 import 'package:arianeapp1/Pages/PaginaLivros/PaginaLivros.dart';
+import 'package:arianeapp1/Pages/telaApi.dart';
 import 'package:arianeapp1/user.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -95,7 +96,7 @@ class _NavBarState extends State<NavBar> {
   }
 
   List<Widget> screens = [
-    TelaHome(),
+    ApiAll(),
     TelaLivros(),
     TelaUser(),
   ];

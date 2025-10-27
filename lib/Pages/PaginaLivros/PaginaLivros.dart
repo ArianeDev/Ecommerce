@@ -126,13 +126,13 @@ class _TelaLivrosState extends State<TelaLivros> {
   }
 
   void getAPI() async {
-    final response = await http.get(Uri.parse(""));
+    final response = await http.get(Uri.parse("https://swapi.dev/api/people/1"));
 
     if (response.statusCode == 200) {
       final data = jsonDecode(response.body); // transforma json em string
 
       setState(() {
-        API = data[1]["title"];
+        API = data["name"];
       });
     }
   }
@@ -162,7 +162,7 @@ class _TelaLivrosState extends State<TelaLivros> {
           foregroundColor: Color.fromRGBO(255, 255, 255, 1),
           backgroundColor: Color.fromRGBO(15, 0, 68, 1),
         ),
-        body: SingleChildScrollView(
+        body: API == null ? Center(child: CircularProgressIndicator()) : SingleChildScrollView(
           child: Padding(
             padding: const EdgeInsets.all(4.0),
             child: 
@@ -170,6 +170,7 @@ class _TelaLivrosState extends State<TelaLivros> {
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 // crossAxisAlignment: CrossAxisAlignment.end, mexer no eixo x da coluna
                 children: [ // widgets filhos
+                  Text("$API"),
                   SizedBox(height: 10),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
