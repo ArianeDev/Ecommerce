@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "467420085734",
+    "project_id": "biblioteca-f2d75",
+    "storage_bucket": "biblioteca-f2d75.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:467420085734:android:3b64f010b110713171aa27",
+        "android_client_info": {
+          "package_name": "com.example.arianeapp1"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAadWHU-JBTVGSuzaL8Zg7CJM1c6GqZ3o4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
