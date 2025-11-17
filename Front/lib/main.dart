@@ -1,9 +1,12 @@
 import 'dart:async';
 
 import 'package:arianeapp1/Pages/Login/login.dart';
+import 'package:arianeapp1/Pages/PaginaCadastroLivro/PaginaCadastroLivro.dart';
+import 'package:arianeapp1/Pages/PaginaCarrinho/carrinho.dart';
 import 'package:arianeapp1/Pages/PaginaLivros/PaginaLivros.dart';
 import 'package:arianeapp1/Pages/telaApi.dart';
 import 'package:arianeapp1/user.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:arianeapp1/main.dart';
@@ -12,8 +15,14 @@ import 'package:arianeapp1/Components/CardLivro/CardLivro.dart';
 import 'package:arianeapp1/Pages/PaginaHome/TelaHome.dart';
 import 'package:arianeapp1/Pages/PaginaLivro/PaginaLivro.dart';
 import 'package:arianeapp1/Pages/Login/login.dart';
+import 'firebase_options.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform
+  );
+
   runApp(
     MaterialApp(
       debugShowCheckedModeBanner: false,
@@ -98,7 +107,7 @@ class _NavBarState extends State<NavBar> {
   List<Widget> screens = [
     ApiAll(),
     TelaLivros(),
-    TelaUser(),
+    TelaCarrinho(),
   ];
   
   @override

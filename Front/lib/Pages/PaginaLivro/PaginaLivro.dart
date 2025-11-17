@@ -91,7 +91,7 @@ class PaginaLivro extends StatelessWidget {
             ),
             ElevatedButton(
               onPressed: (){
-                Navigator.push(context, MaterialPageRoute(builder: (context) => TelaUser()));
+                
               }, 
               child: Icon(Icons.play_arrow)
             )
