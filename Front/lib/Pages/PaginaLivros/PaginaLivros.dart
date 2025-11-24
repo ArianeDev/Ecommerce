@@ -122,7 +122,7 @@ class _TelaLivrosState extends State<TelaLivros> {
                           onChanged: _filtrarLivros,
                           decoration: InputDecoration(
                             hintText: "Pesquisar Livros...",
-                            prefixIcon: Icon(Icons.search),
+                            prefixIcon: Icon(Icons.search, color: Colors.grey[600]),
                             border: InputBorder.none,
                             contentPadding: EdgeInsets.symmetric(vertical: 12)
                           ),
@@ -131,18 +131,26 @@ class _TelaLivrosState extends State<TelaLivros> {
                     ],
                   ),
                   SizedBox(height: 20),
-                  Wrap(
-                    spacing: 16,
-                    runSpacing: 16,
-                    children: livrosFiltrados.map((livro) {
+                  GridView.builder(
+                    shrinkWrap: true,
+                    physics: NeverScrollableScrollPhysics(),
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 3,
+                      childAspectRatio: 0.8,
+                      crossAxisSpacing: 14,
+                      mainAxisSpacing: 14,
+                    ),
+                    itemCount: livrosFiltrados.length,
+                    itemBuilder: (context, index) {
+                      final livro = livrosFiltrados[index];
                       return CardLivro(
-                        nome: livro["nome"]!, 
-                        imagem: livro["imagem"]!, 
-                        preco: livro["preco"]!, 
-                        descricao: livro["descricao"]!
+                        nome: livro["nome"]!,
+                        imagem: livro["imagem"]!,
+                        preco: livro["preco"]!,
+                        descricao: livro["descricao"]!,
                       );
-                    }).toList(),
-                  )
+                    },
+                  ),
                 ],
               ),  
             ), 

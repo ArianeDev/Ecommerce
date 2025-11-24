@@ -1,10 +1,10 @@
 import 'dart:async';
 
 import 'package:arianeapp1/Pages/Login/login.dart';
-import 'package:arianeapp1/Pages/PaginaCadastroLivro/PaginaCadastroLivro.dart';
+import 'package:arianeapp1/Pages/adm/PaginaCadastroLivro/PaginaCadastroLivro.dart';
 import 'package:arianeapp1/Pages/PaginaCarrinho/carrinho.dart';
 import 'package:arianeapp1/Pages/PaginaLivros/PaginaLivros.dart';
-import 'package:arianeapp1/Pages/telaApi.dart';
+import 'package:arianeapp1/Pages/adm/PaginaGerenciamento/PaginaGerencimento.dart';
 import 'package:arianeapp1/user.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -99,13 +99,23 @@ class _NavBarState extends State<NavBar> {
   int currentIndex = 0; // variável que indica posição do index
   
   void changeIndex(int index) {
-    setState(() { // permite alterar o valor de variáveis
-      currentIndex = index;
-    });
+    if (index == 3) {
+      // Sair da aplicação
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (context) => LoginPage(),
+        ),
+      );
+    } else {
+      setState(() { // permite alterar o valor de variáveis
+        currentIndex = index;
+      });
+    }
   }
 
   List<Widget> screens = [
-    ApiAll(),
+    TelaHome(),
     TelaLivros(),
     TelaCarrinho(),
   ];
@@ -119,11 +129,15 @@ class _NavBarState extends State<NavBar> {
           items: <BottomNavigationBarItem> [
             BottomNavigationBarItem(
               label: "Home",
-              icon: Icon(Icons.home)
+              icon: Icon(Icons.home),
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.book),
               label: "Livros",
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.shopping_cart),
+              label: "Carrinho",
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.exit_to_app),
@@ -132,6 +146,82 @@ class _NavBarState extends State<NavBar> {
           ],
           currentIndex: currentIndex,
           onTap: changeIndex,
+          selectedItemColor: Color.fromRGBO(15, 0, 68, 1),
+          unselectedItemColor: Colors.grey,
+          selectedLabelStyle: TextStyle(
+            color: Color.fromRGBO(15, 0, 68, 1),
+          ),
+          unselectedLabelStyle: TextStyle(
+            color: Colors.grey,
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class NavBarAdm extends StatefulWidget {
+  const NavBarAdm({super.key});
+
+  @override
+  State<NavBarAdm> createState() => _NavBarAdmState();
+}
+
+// Boa prática - colocar a lógica antes do segundo @override
+class _NavBarAdmState extends State<NavBarAdm> {
+  int currentIndex = 0; // variável que indica posição do index
+  
+  void changeIndex(int index) {
+    if (index == 2) {
+      // Sair da aplicação
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (context) => LoginPage(),
+        ),
+      );
+    } else {
+      setState(() { // permite alterar o valor de variáveis
+        currentIndex = index;
+      });
+    }
+  }
+
+  List<Widget> screens = [
+    CadastroLivro(),
+    GerenciarLivros(),
+  ];
+  
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      home: Scaffold(
+        body: screens.elementAt(currentIndex), // o conteúdo da teça será o index selecionado
+        bottomNavigationBar: BottomNavigationBar(
+          items: <BottomNavigationBarItem> [
+            BottomNavigationBarItem(
+              label: "Home",
+              icon: Icon(Icons.home),
+            ),
+            BottomNavigationBarItem(
+              label: "Home",
+              icon: Icon(Icons.home),
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.exit_to_app),
+              label: "Sair",
+            )
+          ],
+          currentIndex: currentIndex,
+          onTap: changeIndex,
+          selectedItemColor: Color.fromRGBO(15, 0, 68, 1),
+          unselectedItemColor: Colors.grey,
+          selectedLabelStyle: TextStyle(
+            color: Color.fromRGBO(15, 0, 68, 1),
+          ),
+          unselectedLabelStyle: TextStyle(
+            color: Colors.grey,
+          ),
         ),
       ),
     );

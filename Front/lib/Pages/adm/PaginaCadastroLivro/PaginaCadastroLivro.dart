@@ -58,6 +58,14 @@ class _CadastroLivroState extends State<CadastroLivro> {
         ),
         body: Column(
           children: [
+            SizedBox(height: 20),
+            Text(
+              "Cadastro de Livro",
+              style: GoogleFonts.poppins(
+                fontSize: 24,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 20, vertical: 16),
               child: TextFormField(

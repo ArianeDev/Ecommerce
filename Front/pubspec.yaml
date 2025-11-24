@@ -37,6 +37,7 @@ dependencies:
   # Bibliotecas vem depois disso
   google_fonts: ^6.3.2
   firebase_core: ^4.2.1
+  firebase_auth: ^6.1.2
   cloud_firestore: ^6.1.0
   http: ^1.5.0
 

@@ -1,6 +1,9 @@
+import 'package:arianeapp1/Pages/adm/PaginaCadastroLivro/PaginaCadastroLivro.dart';
 import 'package:arianeapp1/Pages/PaginaLivros/PaginaLivros.dart';
 import 'package:arianeapp1/main.dart';
 import 'package:arianeapp1/user.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -16,21 +19,38 @@ class _LoginPageState extends State<LoginPage> {
   TextEditingController user = TextEditingController();
   TextEditingController password = TextEditingController();
 
-  String correctUser = 'Ariane';
-  String correctPass = '123';
-
   String mensage = "";
 
-  void login() {
-    if (user.text == correctUser && password.text == correctPass) {
-      Navigator.push(context, MaterialPageRoute(builder: (context) => NavBar()));
+  void login() async {
+    try {
+      QuerySnapshot snapshot = await FirebaseFirestore.instance
+          .collection('user')
+          .where('email', isEqualTo: user.text.trim())
+          .where('senha', isEqualTo: password.text.trim())
+          .get();
+
+      if (snapshot.docs.isEmpty) {
+        setState(() {
+          mensage = "Credenciais incorretas ou usuário não existe";
+        });
+        return;
+      }
+
+      final doc = snapshot.docs.first;
+      final tipo = doc['tipo'];
+
+      if (tipo == 'adm') {
+        Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => NavBarAdm()));
+      } else {
+        Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => NavBar()));
+      }
 
       setState(() {
         mensage = "";
       });
-    } else {
+    } catch (e) {
       setState(() {
-        mensage = "Existe credenciais incorretas";
+        mensage = "Erro ao fazer login: $e";
       });
     }
   }
@@ -122,11 +142,9 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                   SizedBox(height: 10),
                   ElevatedButton(
-                    onPressed: login, 
-                    child: Text(
-                      "Login"
-                    )
-                  )
+                    onPressed: login,
+                    child: Text("Login"),
+                  ),
                 ]
               ), 
             ),

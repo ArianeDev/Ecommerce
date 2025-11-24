@@ -1,9 +1,13 @@
+import 'package:arianeapp1/Models/Carrinho.dart';
+import 'package:arianeapp1/Models/Livro.dart';
+import 'package:arianeapp1/Pages/PaginaCarrinho/carrinho.dart';
+import 'package:arianeapp1/Service/carrinho_service.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../Components/Contador/Contador.dart';
 import '../../user.dart';
 
-class PaginaLivro extends StatelessWidget {
+class PaginaLivro extends StatefulWidget {
   final String nome;
   final String imagem;
   final String preco;
@@ -18,10 +22,17 @@ class PaginaLivro extends StatelessWidget {
   });
 
   @override
+  PaginaLivroState createState() => PaginaLivroState();
+}
+
+class PaginaLivroState extends State<PaginaLivro> {
+  int quantidade = 1;
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(nome),
+        title: Text(widget.nome),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -35,7 +46,7 @@ class PaginaLivro extends StatelessWidget {
                   width: 200,
                   height: 200,
                   child: Image.asset(
-                    imagem,
+                    widget.imagem,
                     fit: BoxFit.contain,
                   ),
                 ),
@@ -45,7 +56,7 @@ class PaginaLivro extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        nome,
+                        widget.nome,
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 20,
@@ -53,7 +64,7 @@ class PaginaLivro extends StatelessWidget {
                       ),
                       SizedBox(height: 10),
                       Text(
-                        'Preço: R\$ $preco',
+                        'Preço: R\$ ${widget.preco}',
                         style: TextStyle(
                           fontSize: 16,
                           color: Colors.green[700],
@@ -62,7 +73,13 @@ class PaginaLivro extends StatelessWidget {
                       ),
                       SizedBox(height: 10),
                       Text("Quantidade:"),
-                      Contador(), 
+                      Contador(
+                        onQuantityChanged: (valor) {
+                          setState(() {
+                            quantidade = valor;
+                          });
+                        },
+                      ), 
                     ],
                   ),
                 ),
@@ -83,7 +100,7 @@ class PaginaLivro extends StatelessWidget {
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Text(
-                    descricao,
+                    widget.descricao,
                     style: TextStyle(fontSize: 14),
                   ),
                 ),
@@ -91,9 +108,27 @@ class PaginaLivro extends StatelessWidget {
             ),
             ElevatedButton(
               onPressed: (){
-                
+                final livro = Livro(
+                  titulo: widget.nome,
+                  foto: widget.imagem,
+                  preco: widget.preco,
+                  descricao: widget.descricao,
+                );
+
+                final item = ItemCarrinho(
+                  livro: livro, 
+                  quantidade: quantidade
+                );
+
+                carrinho.adicionar(item);
+
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text('Livro adicionado ao carrinho!'),
+                  ),
+                );
               }, 
-              child: Icon(Icons.play_arrow)
+              child: Icon(Icons.add_shopping_cart)
             )
           ],
         ),
