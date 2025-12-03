@@ -36,4 +36,8 @@ class Carrinho {
       return soma + (double.parse(preco) * item.quantidade);
     }); 
   }
+  
+  void limpar() {
+    itens.clear(); // remove todos os itens
+  }
 }

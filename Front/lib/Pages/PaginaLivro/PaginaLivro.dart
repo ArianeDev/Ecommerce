@@ -18,7 +18,7 @@ class PaginaLivro extends StatefulWidget {
     required this.nome,
     required this.imagem,
     required this.preco,
-    required this.descricao
+    required this.descricao,
   });
 
   @override
@@ -31,105 +31,154 @@ class PaginaLivroState extends State<PaginaLivro> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.grey[100],
       appBar: AppBar(
-        title: Text(widget.nome),
+        backgroundColor: Colors.white,
+        elevation: 1,
+        iconTheme: IconThemeData(color: Colors.black),
+        title: Text(
+          widget.nome,
+          style: GoogleFonts.poppins(
+            color: Colors.black87,
+            fontWeight: FontWeight.w600,
+          ),
+        ),
       ),
-      body: Padding(
+      body: SingleChildScrollView(
         padding: const EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                SizedBox(
-                  width: 200,
-                  height: 200,
-                  child: Image.asset(
-                    widget.imagem,
-                    fit: BoxFit.contain,
-                  ),
-                ),
-                SizedBox(width: 20),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        widget.nome,
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 20,
-                        ),
+            Card(
+              elevation: 4,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    ClipRRect(
+                      borderRadius: BorderRadius.circular(8),
+                      child: Image.asset(
+                        widget.imagem,
+                        width: 150,
+                        height: 200,
+                        fit: BoxFit.cover,
                       ),
-                      SizedBox(height: 10),
-                      Text(
-                        'Preço: R\$ ${widget.preco}',
-                        style: TextStyle(
-                          fontSize: 16,
-                          color: Colors.green[700],
-                          fontWeight: FontWeight.w500,
-                        ),
+                    ),
+                    const SizedBox(width: 20),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            widget.nome,
+                            style: GoogleFonts.poppins(
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          const SizedBox(height: 10),
+                          Text(
+                            'R\$ ${widget.preco}',
+                            style: GoogleFonts.poppins(
+                              fontSize: 18,
+                              color: Colors.green[700],
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                          const SizedBox(height: 15),
+                          Text(
+                            "Quantidade:",
+                            style: GoogleFonts.poppins(fontSize: 14),
+                          ),
+                          Contador(
+                            onQuantityChanged: (valor) {
+                              setState(() {
+                                quantidade = valor;
+                              });
+                            },
+                          ),
+                        ],
                       ),
-                      SizedBox(height: 10),
-                      Text("Quantidade:"),
-                      Contador(
-                        onQuantityChanged: (valor) {
-                          setState(() {
-                            quantidade = valor;
-                          });
-                        },
-                      ), 
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
-              ],
+              ),
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
+            Text(
+              "Descrição",
+              style: GoogleFonts.poppins(
+                fontSize: 18,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+            const SizedBox(height: 8),
             Container(
+              padding: const EdgeInsets.all(12),
               decoration: BoxDecoration(
                 color: Colors.white,
-                border: Border.all(
-                  color: const Color.fromARGB(221, 218, 218, 218),
-                  width: 1,
-                ),
-                borderRadius: BorderRadius.circular(10),
+                borderRadius: BorderRadius.circular(12),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black12,
+                    blurRadius: 6,
+                    offset: Offset(0, 2),
+                  ),
+                ],
               ),
-              child: Align(
-                alignment: Alignment.topLeft,
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text(
-                    widget.descricao,
-                    style: TextStyle(fontSize: 14),
+              child: Text(
+                widget.descricao,
+                style: GoogleFonts.poppins(fontSize: 14, color: Colors.black87),
+              ),
+            ),
+            const SizedBox(height: 30),
+            SizedBox(
+              width: double.infinity,
+              child: ElevatedButton.icon(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.green[700],
+                  padding: const EdgeInsets.symmetric(vertical: 14),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                ),
+                onPressed: () {
+                  final livro = Livro(
+                    titulo: widget.nome,
+                    foto: widget.imagem,
+                    preco: widget.preco,
+                    descricao: widget.descricao,
+                  );
+
+                  final item = ItemCarrinho(
+                    livro: livro,
+                    quantidade: quantidade,
+                  );
+
+                  carrinho.adicionar(item);
+
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text('Livro adicionado ao carrinho!'),
+                      backgroundColor: Colors.green[700],
+                    ),
+                  );
+                },
+                icon: Icon(Icons.add_shopping_cart, color: Colors.white),
+                label: Text(
+                  "Adicionar ao Carrinho",
+                  style: GoogleFonts.poppins(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w600,
+                    color: Colors.white,
                   ),
                 ),
               ),
             ),
-            ElevatedButton(
-              onPressed: (){
-                final livro = Livro(
-                  titulo: widget.nome,
-                  foto: widget.imagem,
-                  preco: widget.preco,
-                  descricao: widget.descricao,
-                );
-
-                final item = ItemCarrinho(
-                  livro: livro, 
-                  quantidade: quantidade
-                );
-
-                carrinho.adicionar(item);
-
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
-                    content: Text('Livro adicionado ao carrinho!'),
-                  ),
-                );
-              }, 
-              child: Icon(Icons.add_shopping_cart)
-            )
           ],
         ),
       ),

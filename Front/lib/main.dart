@@ -181,7 +181,7 @@ class _NavBarAdmState extends State<NavBarAdm> {
         ),
       );
     } else {
-      setState(() { // permite alterar o valor de variáveis
+      setState(() {
         currentIndex = index;
       });
     }
@@ -196,7 +196,7 @@ class _NavBarAdmState extends State<NavBarAdm> {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
-        body: screens.elementAt(currentIndex), // o conteúdo da teça será o index selecionado
+        body: screens.elementAt(currentIndex),
         bottomNavigationBar: BottomNavigationBar(
           items: <BottomNavigationBarItem> [
             BottomNavigationBarItem(

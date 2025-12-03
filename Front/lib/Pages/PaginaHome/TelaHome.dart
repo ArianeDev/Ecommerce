@@ -1,9 +1,28 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:arianeapp1/Components/CardLivro/CardLivro.dart';
+import 'package:http/http.dart' as http;
 
 class TelaHome extends StatelessWidget {
   const TelaHome({super.key});
+
+  Future<List<dynamic>> listarSugestoesDiversas() async {
+  final termos = ["romance", "fantasia", "classicos", "ficcao"];
+  List<dynamic> todosLivros = [];
+
+  for (var termo in termos) {
+    final url = Uri.parse("https://openlibrary.org/search.json?q=$termo");
+    final resposta = await http.get(url);
+
+    if (resposta.statusCode == 200) {
+      final dados = jsonDecode(resposta.body);
+      final livros = dados["docs"];
+      todosLivros.addAll(livros.take(2)); 
+    }
+  }
+
+  return todosLivros.take(8).toList(); 
+}
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +52,7 @@ class TelaHome extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
 
-              // 🎯 Banner Principal
+              // 🔹 Banner
               Container(
                 width: double.infinity,
                 padding: const EdgeInsets.all(20),
@@ -47,24 +66,14 @@ class TelaHome extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      "Encontre seu próximo",
-                      style: TextStyle(
-                        color: Colors.white70,
-                        fontSize: 18,
-                      ),
-                    ),
-                    Text(
-                      "LIVRO FAVORITO",
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 28,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
+                    Text("Encontre seu próximo",
+                        style: TextStyle(color: Colors.white70, fontSize: 18)),
+                    Text("LIVRO FAVORITO",
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 28,
+                            fontWeight: FontWeight.bold)),
                     const SizedBox(height: 15),
-
-                    // 🔍 Barra de busca
                     Container(
                       decoration: BoxDecoration(
                         color: Colors.white,
@@ -86,25 +95,21 @@ class TelaHome extends StatelessWidget {
 
               const SizedBox(height: 25),
 
-              // ⭐ Categorias
+              // 🔹 Categorias
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20),
-                child: Text(
-                  "Categorias",
-                  style: TextStyle(
-                    fontSize: 22,
-                    fontWeight: FontWeight.bold,
-                    color: Color.fromRGBO(40, 40, 40, 1),
-                  ),
-                ),
+                child: Text("Categorias",
+                    style: TextStyle(
+                        fontSize: 22,
+                        fontWeight: FontWeight.bold,
+                        color: Color.fromRGBO(40, 40, 40, 1))),
               ),
               const SizedBox(height: 15),
-
               SizedBox(
                 height: 55,
                 child: ListView(
                   scrollDirection: Axis.horizontal,
-                  padding: const EdgeInsets.only(left: 20, right: 20),
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
                   children: [
                     categoria("Ficção", Icons.auto_stories),
                     categoria("Romance", Icons.favorite),
@@ -118,51 +123,71 @@ class TelaHome extends StatelessWidget {
 
               const SizedBox(height: 35),
 
-              // 📚 Livros em destaque
+              // 🔹 Sugestão de leitura (API)
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20),
-                child: Text(
-                  "Destaques",
-                  style: TextStyle(
-                    fontSize: 22,
-                    fontWeight: FontWeight.bold,
-                    color: Color.fromRGBO(40, 40, 40, 1),
-                  ),
-                ),
+                child: Text("Sugestão de leitura",
+                    style: TextStyle(
+                        fontSize: 22,
+                        fontWeight: FontWeight.bold,
+                        color: Color.fromRGBO(40, 40, 40, 1))),
               ),
-
               const SizedBox(height: 15),
 
-              SizedBox(
-                height: 260,
-                child: ListView(
-                  scrollDirection: Axis.horizontal,
-                  padding: const EdgeInsets.only(left: 20, right: 20),
-                  children: const [
-                    // Cards do usuário
-                    CardLivro(
-                      nome: "O Senhor dos Anéis",
-                      imagem: "assets/img/livro01.jpg",
-                      preco: "59.90",
-                      descricao: "Legal",
-                    ),
-                    SizedBox(width: 16),
-                    CardLivro(
-                      nome: "O Senhor dos Anéis",
-                      imagem: "assets/img/livro01.jpg",
-                      preco: "59.90",
-                      descricao: "Legal",
-                    ),
-                    SizedBox(width: 16),
-                    CardLivro(
-                      nome: "O Senhor dos Anéis",
-                      imagem: "assets/img/livro01.jpg",
-                      preco: "59.90",
-                      descricao: "Legal",
-                    ),
-                    SizedBox(width: 16),
-                  ],
-                ),
+              FutureBuilder<List<dynamic>>(
+                future: listarSugestoesDiversas(),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const Center(child: CircularProgressIndicator());
+                  } else if (snapshot.hasError) {
+                    return Center(
+                        child: Text("Erro ao carregar sugestões",
+                            style: TextStyle(color: Colors.red)));
+                  } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                    return const Center(child: Text("Nenhum livro encontrado"));
+                  }
+
+                  final livros = snapshot.data!;
+                  return ListView.builder(
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    itemCount: livros.length,
+                    itemBuilder: (context, index) {
+                      final livro = livros[index];
+                      return Padding(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 20, vertical: 8),
+                        child: Card(
+                          elevation: 4,
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(12)),
+                          child: ListTile(
+                            leading: const Icon(Icons.menu_book,
+                                color: Color.fromRGBO(79, 55, 139, 1)),
+                            title: Text(
+                              livro["title"] ?? "Sem título",
+                              style: GoogleFonts.poppins(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 16,
+                              ),
+                            ),
+                            subtitle: Text(
+                              "Autor: ${(livro["author_name"] != null) ? livro["author_name"].join(", ") : "Desconhecido"}",
+                              style: GoogleFonts.poppins(fontSize: 14),
+                            ),
+                            trailing: Text(
+                              "Ano: ${livro["first_publish_year"] ?? "--"}",
+                              style: GoogleFonts.poppins(
+                                fontSize: 13,
+                                color: Colors.grey[700],
+                              ),
+                            ),
+                          ),
+                        ),
+                      );
+                    },
+                  );
+                },
               ),
 
               const SizedBox(height: 40),
@@ -173,7 +198,6 @@ class TelaHome extends StatelessWidget {
     );
   }
 
-  // 🔧 Widget de categoria estilizado com gradiente + ícones
   Widget categoria(String nome, IconData icone) {
     return Container(
       margin: const EdgeInsets.only(right: 12),
@@ -200,14 +224,11 @@ class TelaHome extends StatelessWidget {
         children: [
           Icon(icone, color: Colors.white, size: 20),
           const SizedBox(width: 8),
-          Text(
-            nome,
-            style: const TextStyle(
-              color: Colors.white,
-              fontWeight: FontWeight.w600,
-              fontSize: 15,
-            ),
-          ),
+          Text(nome,
+              style: const TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.w600,
+                  fontSize: 15)),
         ],
       ),
     );
