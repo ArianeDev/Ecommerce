@@ -1,4 +1,4 @@
-#App biblioteca
+# App biblioteca
 O aplicativo consiste em um aplicativo desenvolvido em Flutter que simula um aplicativo de ecommerce. 
 Possível ser acessado por dois tipo de usuário, sendo eles o usuário comum e o admin.
 
