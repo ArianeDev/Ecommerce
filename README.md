@@ -1,25 +1,35 @@
 # App biblioteca
-O aplicativo consiste em um aplicativo desenvolvido em Flutter que simula um aplicativo de ecommerce. 
+O aplicativo consiste em um aplicativo desenvolvido em Flutter que simula um aplicativo de ecommerce.
+
 Possível ser acessado por dois tipo de usuário, sendo eles o usuário comum e o admin.
 
 ## Funcionalidades
-- Login
+<img src="https://cdn.jsdelivr.net/gh/Readme-Workflows/Readme-Icons@main/icons/octicons/ApprovedChanges.svg" /> Login
 
-###Usuário comum
-- Lista de livros
-- Carrinho de compra
-- Finalização da compra
+### Usuário comum
+<img src="https://cdn.jsdelivr.net/gh/Readme-Workflows/Readme-Icons@main/icons/octicons/ApprovedChanges.svg" /> Lista de livros
 
-###Admin
-- Cadastro de novos livros
-- Atualização dos livros
-- Exclusão dos livros
-- Exibição dos Livros
+<img src="https://cdn.jsdelivr.net/gh/Readme-Workflows/Readme-Icons@main/icons/octicons/ApprovedChanges.svg" /> Carrinho de compra
+
+<img src="https://cdn.jsdelivr.net/gh/Readme-Workflows/Readme-Icons@main/icons/octicons/ApprovedChanges.svg" /> Finalização da compra
+
+### Admin
+<img src="https://cdn.jsdelivr.net/gh/Readme-Workflows/Readme-Icons@main/icons/octicons/ApprovedChanges.svg" /> Cadastro de novos livros
+
+<img src="https://cdn.jsdelivr.net/gh/Readme-Workflows/Readme-Icons@main/icons/octicons/ApprovedChanges.svg" /> Atualização dos livros
+
+<img src="https://cdn.jsdelivr.net/gh/Readme-Workflows/Readme-Icons@main/icons/octicons/ApprovedChanges.svg" /> Exclusão dos livros
+
+<img src="https://cdn.jsdelivr.net/gh/Readme-Workflows/Readme-Icons@main/icons/octicons/ApprovedChanges.svg" /> Exibição dos Livros
+
 
 ## Tecnologias utilizadas
-- Flutter
-- Dart
-- Firebase
+
+<p align="start">
+  <a href="https://skillicons.dev">
+    <img src="https://skillicons.dev/icons?i=flutter,dart,firebase" />
+  </a>
+</p>
 
 ## Como executar o projeto
 
